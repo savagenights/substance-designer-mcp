@@ -1,0 +1,231 @@
+{
+  "material_name": "FABL_FORGE_stylized_leather",
+  "project_id": "fabl_forge",
+  "scene_id": "keep_courtyard_overcast",
+  "category": "fabric_cloth",
+  "structure_intent": "pebbled worn hide, soft folds",
+  "story_wear": "scuffed edges, used gear",
+  "hero": true,
+  "hierarchy_tier": "hero",
+  "wants_emissive": false,
+  "build_path": "level_B_recipe_then_regrade",
+  "donor_hints": [],
+  "harmony_mode": "analogous",
+  "mood_tags": [
+    "medieval",
+    "overcast",
+    "damp_stone",
+    "lived_in",
+    "muted"
+  ],
+  "art_pillars": [
+    "Shape-first stylized PBR (bible grammar), never photoreal noise soup",
+    "World materials stay desaturated; heat/magic accents are rare and intentional",
+    "Shared dirt/shadow language across stone, wood, and metal",
+    "Wet coastal and dry keep interiors are different scenes \u2014 do not mix grades blindly",
+    "Emissive only for lava, forge fire, enchanted props",
+    "Domain1: height-first, fewer-and-larger, controlled randomness, expose params",
+    "Domain2: shared visual DNA + hierarchy; validate ensemble under project lighting",
+    "Albedo may carry soft shape cues; roughness stays simple/graphic"
+  ],
+  "style_dna": {
+    "shape_language": "readable_chunky_fantasy - clear silhouettes, soft bevels, no photo breakup",
+    "detail_density": "fewer_and_larger",
+    "wear_philosophy": "contact_logical - dirt in joints, edge wear on tops, shared dirt hue",
+    "albedo_lighting_policy": "soft_baked_cues_ok - gentle AO/edge in albedo allowed; no harsh fake sun streaks",
+    "frequency_policy": {
+      "low": "required_macro_structure",
+      "mid": "sculpt_wear_color_zones",
+      "high": "restrained_or_none"
+    },
+    "core_hue_count_target": 4
+  },
+  "map_priority": [
+    "height (form driver)",
+    "normal (readable volume)",
+    "basecolor (blocks + optional baked cues)",
+    "roughness/metallic (simplified)",
+    "ao/emissive/masks as needed"
+  ],
+  "frequency_plan": {
+    "low": "required_macro_structure",
+    "mid": "sculpt_wear_color_zones",
+    "high": "restrained_or_none",
+    "rule": "HF is a privilege after grayscale silhouette reads"
+  },
+  "palette": {
+    "primary": {
+      "name": "courtyard_stone",
+      "rgb": [
+        0.42,
+        0.4,
+        0.37
+      ],
+      "hex": "#6B665E"
+    },
+    "secondary": {
+      "name": "moss_patch",
+      "rgb": [
+        0.3,
+        0.34,
+        0.28
+      ],
+      "hex": "#4D5747"
+    },
+    "shadow": {
+      "name": "joint_dirt",
+      "rgb": [
+        0.16,
+        0.15,
+        0.13
+      ],
+      "hex": "#292621"
+    },
+    "highlight": {
+      "name": "limestone_kiss",
+      "rgb": [
+        0.58,
+        0.56,
+        0.5
+      ],
+      "hex": "#948F80"
+    },
+    "dirt": {
+      "name": "shared_dirt",
+      "rgb": [
+        0.16,
+        0.14,
+        0.11
+      ],
+      "hex": "#29241C"
+    },
+    "accent": {
+      "name": "forge_ember",
+      "rgb": [
+        1.0,
+        0.35,
+        0.05
+      ],
+      "hex": "#FF590D"
+    }
+  },
+  "roughness": 0.835,
+  "roughness_range": [
+    0.75,
+    0.92
+  ],
+  "param_mapping_hints": {
+    "stone_color|base_color|color|water_color|wood_color|obsidian_color": "primary",
+    "color_variation|secondary|moss|second_color": "secondary",
+    "shadow_color|joint|dirt": "shadow or dirt",
+    "highlight_color|foam_color": "highlight or foam_or_edge",
+    "lava_color|corruption_color|emissive": "emissive",
+    "roughness|water_roughness|obsidian_roughness|lava_roughness": "use suggested_roughness / dual"
+  },
+  "expose_params_suggested": [
+    "primary/secondary/shadow/highlight colors",
+    "wear_intensity / dirt_amount",
+    "pattern_density / stones_scale / wave_density",
+    "roughness",
+    "normal_intensity"
+  ],
+  "ensemble": [
+    {
+      "material_id": "FABL_FORGE_stylized_medieval_cobblestone",
+      "path": "F:/SUBSTANCE_DESIGNER/SBS/FABL_FORGE/FABL_FORGE_stylized_medieval_cobblestone.sbs",
+      "category": "stone_pavement",
+      "roles": {
+        "primary": [
+          0.42,
+          0.4,
+          0.37
+        ],
+        "secondary": [
+          0.3,
+          0.34,
+          0.28
+        ],
+        "shadow": [
+          0.16,
+          0.15,
+          0.13
+        ],
+        "highlight": [
+          0.58,
+          0.56,
+          0.5
+        ]
+      },
+      "notes": "Hero ground \u2014 greystone courtyard"
+    }
+  ],
+  "domain1_authoring_checklist": [
+    "Define style: shape language + color limits + detail density (bible DNA)",
+    "Block PRIMARY SHAPES in height first (low frequency) \u2014 must read in grayscale",
+    "Sculpt mid frequency (warp/slope-blur/levels) without killing silhouette",
+    "Restrain high frequency \u2014 fewer and larger; no photoreal pore soup",
+    "Build masks from height (histogram_scan/select, height_blend)",
+    "Color blocks via uniform/HSL/quantize \u2014 limited palette roles from this brief",
+    "Story wear only where contact is logical (shared dirt/edge language)",
+    "Simplify roughness/metallic; emissive only if scene allows",
+    "Normal from height + HBAO; optional soft baked edge/AO cues in albedo if DNA allows",
+    "Expose params: colors, wear, density, roughness \u2014 enable scene variants",
+    "Export mindset: tileable, parameter-driven (.sbsar-ready)"
+  ],
+  "domain2_ensemble_checklist": [
+    "Hierarchy tier = hero: Primary/hero surface \u2014 richer masks OK, accents allowed within bible",
+    "Match shape language: readable_chunky_fantasy - clear silhouettes, soft bevels, no photo breakup",
+    "Match detail density: fewer_and_larger",
+    "Match wear philosophy: contact_logical - dirt in joints, edge wear on tops, shared dirt hue",
+    "Hue/sat/value inside project windows (run validate_material_against_project)",
+    "Reuse scene dirt/shadow/edge language \u2014 do not invent a new grunge dialect",
+    "Feature scale compatible with ensemble neighbors at target camera",
+    "Roughness family coherent with scene wetness/dust and neighbors",
+    "Accent budget respected; no extra emissive unless scene allows",
+    "Test beside ensemble mats under target lighting/camera before final approve"
+  ],
+  "do": [
+    "Reuse shared_dirt / joint_dirt across set dressing",
+    "Prefer cool greystone over warm desert tan for keep exteriors",
+    "Keep foam and emissive as accents, not base layers",
+    "Validate every new mat against active scene ensemble",
+    "Author height grayscale read before polishing normals",
+    "Expose color/wear/density/roughness for scene variants",
+    "Test new mats beside ensemble under target light/camera",
+    "Desaturated greystone and timber",
+    "Moss only in joints / north faces",
+    "Shared dirt hue with other courtyard props"
+  ],
+  "dont": [
+    "Tropical teal water in keep interiors",
+    "High-sat grass against desat medieval stone without story reason",
+    "Random emissive sparkles on mundane props",
+    "Photoreal pore noise on stylized hero tiles",
+    "Uncontrolled high-frequency noise for realism",
+    "Inconsistent detail density next to quieter neighbors",
+    "Scale mismatches (giant grain beside fine cobble)",
+    "Warm desert cobble",
+    "Lava emissive",
+    "Tropical water teal"
+  ],
+  "pre_validation": {
+    "status": "pass",
+    "summary": "PASS: 0 fail, 0 warn, 0 total",
+    "issues": [],
+    "fixes": {}
+  },
+  "workflow": [
+    "1. Confirm project/scene (project_set_active if needed)",
+    "2. Read this brief (D1+D2 checklists) + stylized_design_concepts",
+    "3. stylized_category_guide(category) for category topology grammar",
+    "4. stylized_search / clone donor if Level C",
+    "5. Author height-first; protect fewer-and-larger frequency plan",
+    "6. Apply suggested role colors + roughness (NOT unmodified donor defaults)",
+    "7. Expose key params for scene variation",
+    "8. validate_material_against_project with final colors",
+    "9. project_register_material on pass/warn",
+    "10. Spot-check WITH ensemble under target light/camera"
+  ],
+  "concepts_excerpt": "# Stylized Material Design Concepts (Level D)\n\nThis is the **thinking layer** above cloning and recipes.\nCloning copies topology. Recipes scaffold nodes. **Concepts** decide *what beautiful means*\nand whether a material belongs in a project / scene / film look.\n\nTwo domains, one pipeline:\n\n1. **Domain 1 \u2014 Authoring stylized materials in Substance Designer**\n2. **Domain 2 \u2014 Making materials look good *together* in a scene**\n\nUse with project art-bibles (`knowledge/projects/`) and MCP tools:\n`project_*`, `stylized_design_brief`, `validate_material_against_project`.\n\n---\n\n\n## 0. Domain map (read this first)\n\n| Domain | Question it answers | Primary artifacts |\n|--------|---------------------|-------------------|\n| **D1 Authoring** | How do I build one readable stylized PBR graph? | node stack, frequency plan, masks, exposed params, `.sbsar` |\n| **D2 Ensemble** | Will this mat belong with its neighbors under project lighting? | art bible, scene mood, hierarchy, shared DNA, validation |\n| **Integration** | Every mat is authored *against the same style bible* | brief \u2192 build \u2192 validate \u2192 register \u2192 test together |\n\n**Output goal (D1):** tileable, parameter-driven materials (ideally `.sbsar`) that match a defined art style and stay readable across distance and lighting.\n\n**Output goal (D2):** a set of materials that share visual DNA, support storytelling hierarchy, and do not compete or clash in-frame.\n\n---\n\n\n### Stylization vs realism ( Domains quick split )\n\n| | Realism | Stylized |\n|--|---------|----------|\n| Noise | High-frequency, subtle | Low/mid first; HF restrained |\n| Color | Micro-variation, photo breakup | Blocks, limited palette, posterization OK |\n| Lighting in maps | Avoid baked lighting in albedo | Baked edge/AO/highlight cues often *desired* |\n| PBR response | Energy-conserving, subtle | Simplified or exaggerated for graphic read |\n| Randomness | Stochastic richness | **Controlled** randomness / deliberate Tile Sampler placement |\n\nThe reference corpus proves the topology: shape \u2192 mask carve \u2192 soft height \u2192 flat color blocks \u2192 simple roughness.\n\n---\n\n\n## 1b. Substance Designer \u2014 Domain 1 authoring model\n\nDesigner is a **node-based procedural** tool for \n...",
+  "notes": ""
+}

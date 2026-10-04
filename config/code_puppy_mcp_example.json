@@ -1,0 +1,20 @@
+{
+  "mcp_servers": {
+    "substance_designer": {
+      "type": "stdio",
+      "command": "C:\\Users\\YOUR_USERNAME\\.local\\bin\\uv.exe",
+      "args": [
+        "run",
+        "--directory",
+        "F:\\AI\\PROJECTS\\substance-designer-mcp\\server",
+        "python",
+        "sd_mcp_bridge.py",
+        "--port",
+        "9881"
+      ],
+      "cwd": "F:\\AI\\PROJECTS\\substance-designer-mcp\\server",
+      "timeout": 120,
+      "enabled": true
+    }
+  }
+}

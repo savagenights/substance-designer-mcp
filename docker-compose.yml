@@ -1,0 +1,16 @@
+services:
+  substance-designer-mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: substance-designer-mcp-bridge
+    volumes:
+      - ./server:/app/server:ro
+      - ${SD_PLUGIN_DIR:-${HOME}/Documents/Adobe/Adobe Substance 3D Designer/python/sduserplugins}:/sdplugin:rw
+    environment:
+      - PYTHONUNBUFFERED=1
+      - MCP_PORT=9881
+      - MCP_HOT_RELOAD=true
+    ports:
+      - "9881:9881"
+    restart: unless-stopped

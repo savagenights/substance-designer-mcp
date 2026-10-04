@@ -1,7 +1,7 @@
 """
 sd_node_recipes.py
 Substance Designer Procedural Texture Recipes
-Researched 2026-02-18 from Adobe official docs, 80.lv, TurboSquid, Overdraw.xyz,
+Researched 2026-02-18 from SD official docs, 80.lv, TurboSquid, Overdraw.xyz,
 and community breakdowns. For use by the SD MCP plugin and Claude Code.
 
 ATOMIC NODES (use create_node with definition_id):
@@ -312,7 +312,7 @@ SECTION 2: ORGANIC PATTERNS (WOOD, BARK, FABRIC)
 
 RECIPE: Procedural Wood Grain (5-Step Foundation)
     Purpose: Oak/pine wood plank grain with fiber direction and knots
-    Based on: not-lonely.com tutorial, Adobe parametric woods article
+    Based on: not-lonely.com tutorial, SD parametric woods article
 
     Node chain:
         1. gradient_linear_1  (LIBRARY) -- horizontal fiber base
@@ -440,7 +440,7 @@ RECIPE: Tree Bark (Tile Sampler + Bevel Approach)
 
 RECIPE: Fabric Weave (Weave Generator + Detail)
     Purpose: Canvas, burlap, linen weave pattern
-    Based on: Adobe Weave Generator docs, Surface Mentor article
+    Based on: SD Weave Generator docs, Surface Mentor article
 
     Node chain:
         1. weave_generator  (LIBRARY)
@@ -551,7 +551,7 @@ RECIPE: Procedural Concrete (Fractal + Grunge)
 
 RECIPE: Rusted Metal (Curvature + Grunge)
     Purpose: Aged steel, iron, or galvanized metal with rust patches
-    Based on: Adobe Rust Weathering docs, 80.lv tarnished metal breakdown
+    Based on: SD Rust Weathering docs, 80.lv tarnished metal breakdown
 
     Node chain:
         1. uniform  (ATOMIC) -- clean metal base height
@@ -625,7 +625,7 @@ RECIPE: Rusted Metal (Curvature + Grunge)
 
 RECIPE: Brick Wall (Tile Generator + Mortar)
     Purpose: Standard running bond brick, stone brick, tile floor
-    Based on: Kokku Games procedural brick breakdown, Adobe Tile Generator docs
+    Based on: Kokku Games procedural brick breakdown, SD Tile Generator docs
 
     Node chain:
         1. tile_generator  (LIBRARY)
@@ -752,7 +752,7 @@ SECTION 4: UTILITY PATTERNS (EDGE WEAR, AO, CAVITY)
 
 RECIPE: Procedural Edge Wear Mask (Without Baked Maps)
     Purpose: Mask highlighting worn/bright edges for metal, paint, etc.
-    Based on: Adobe Edge Wear docs, 80.lv mastering SD guide
+    Based on: SD Edge Wear docs, 80.lv mastering SD guide
 
     Node chain:
         1. [HEIGHT_INPUT] -- connect your height map here
@@ -793,7 +793,7 @@ RECIPE: Procedural Edge Wear Mask (Without Baked Maps)
 
 RECIPE: Height-Derived AO and Cavity Mask
     Purpose: Generates AO, convex highlight, and concave cavity masks from height
-    Based on: Adobe AO docs, curvature workflow from community tutorials
+    Based on: SD AO docs, curvature workflow from community tutorials
 
     Node chain:
         1. [HEIGHT_INPUT]
@@ -931,7 +931,7 @@ SECTION 5: FX-MAP PATTERNS
 
 RECIPE: FX-Map Scattered Dots / Stipple
     Purpose: Procedural dot pattern, stipple, porous surface, foam
-    Based on: Adobe FX-Map docs, Rosen Kazlachev basics tutorial
+    Based on: SD FX-Map docs, Rosen Kazlachev basics tutorial
 
     Inside the FX-Map node (fxmaps), the graph uses Quadrant nodes:
 

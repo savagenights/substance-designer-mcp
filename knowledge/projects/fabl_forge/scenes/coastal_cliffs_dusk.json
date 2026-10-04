@@ -1,0 +1,67 @@
+{
+  "id": "coastal_cliffs_dusk",
+  "project_id": "fabl_forge",
+  "title": "Coastal Cliffs — Dusk",
+  "mood_tags": ["ocean", "dusk", "wind", "salt", "cool", "dramatic"],
+  "time_of_day": "dusk",
+  "weather": "clear_windy",
+  "biome": "coast",
+  "harmony_mode_override": "analogous",
+  "white_balance_bias": "cool",
+  "saturation_scale": 1.0,
+  "value_lift": -0.05,
+  "wetness": 0.7,
+  "dust": 0.0,
+  "emissive_allowed": false,
+  "hero_accent_allowed": ["sea_foam", "banner_crimson"],
+  "local_palette": {
+    "primary": [
+      {"name": "deep_ocean", "rgb": [0.01, 0.12, 0.28], "hex": "#031F47"},
+      {"name": "wet_cliff", "rgb": [0.28, 0.30, 0.32], "hex": "#474D52"}
+    ],
+    "secondary": [
+      {"name": "kelp_dark", "rgb": [0.12, 0.22, 0.18], "hex": "#1F382E"}
+    ],
+    "shadow": [
+      {"name": "abyss", "rgb": [0.03, 0.05, 0.08], "hex": "#080D14"}
+    ],
+    "highlight": [
+      {"name": "foam_crest", "rgb": [0.85, 0.92, 0.98], "hex": "#D9EBFA"},
+      {"name": "dusk_rim", "rgb": [0.55, 0.40, 0.35], "hex": "#8C6659"}
+    ],
+    "foam_or_edge": [
+      {"name": "sea_foam", "rgb": [0.85, 0.92, 0.98], "hex": "#D9EBFA"}
+    ]
+  },
+  "preferred_categories": ["water", "stone_rock", "ground_soil", "wood_planks"],
+  "roughness_bias": {
+    "stone": -0.2,
+    "wood": -0.15,
+    "metal": -0.1,
+    "water": 0.0
+  },
+  "ensemble": [
+    {
+      "material_id": "FABL_FORGE_stylized_deep_ocean_water",
+      "path": "F:/SUBSTANCE_DESIGNER/SBS/FABL_FORGE/FABL_FORGE_stylized_deep_ocean_water.sbs",
+      "category": "water",
+      "roles": {
+        "primary": [0.01, 0.12, 0.28],
+        "foam_or_edge": [0.85, 0.92, 0.98],
+        "shadow": [0.02, 0.05, 0.08]
+      },
+      "notes": "Deep ocean body — no sandy bottom"
+    }
+  ],
+  "camera_notes": "Wide environment + water sphere readability; foam as accent only.",
+  "do": [
+    "Deep navy water, cool foam",
+    "Wet roughness on adjacent stone/wood",
+    "Salt-wear language on coastal props"
+  ],
+  "dont": [
+    "Bright tropical lagoon teal",
+    "Heavy warm desert dirt",
+    "Lava heat accents"
+  ]
+}

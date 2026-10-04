@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "projects": {
+    "fabl_forge": {
+      "title": "FABL Forge",
+      "path": "fabl_forge/project.json",
+      "default_scene": "keep_courtyard_overcast",
+      "tags": [
+        "stylized",
+        "fantasy",
+        "medieval",
+        "forge"
+      ]
+    }
+  }
+}

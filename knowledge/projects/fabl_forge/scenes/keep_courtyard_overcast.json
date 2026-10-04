@@ -1,0 +1,205 @@
+{
+  "id": "keep_courtyard_overcast",
+  "project_id": "fabl_forge",
+  "title": "Keep Courtyard \u2014 Overcast Day",
+  "mood_tags": [
+    "medieval",
+    "overcast",
+    "damp_stone",
+    "lived_in",
+    "muted"
+  ],
+  "time_of_day": "day",
+  "weather": "overcast",
+  "biome": "stone_keep",
+  "harmony_mode_override": null,
+  "white_balance_bias": "cool",
+  "saturation_scale": 0.9,
+  "value_lift": 0.0,
+  "wetness": 0.25,
+  "dust": 0.15,
+  "emissive_allowed": false,
+  "hero_accent_allowed": [
+    "banner_crimson",
+    "moss_patch"
+  ],
+  "local_palette": {
+    "primary": [
+      {
+        "name": "courtyard_stone",
+        "rgb": [
+          0.42,
+          0.4,
+          0.37
+        ],
+        "hex": "#6B665E"
+      }
+    ],
+    "secondary": [
+      {
+        "name": "moss_patch",
+        "rgb": [
+          0.3,
+          0.34,
+          0.28
+        ],
+        "hex": "#4D5747"
+      }
+    ],
+    "shadow": [
+      {
+        "name": "joint_dirt",
+        "rgb": [
+          0.16,
+          0.15,
+          0.13
+        ],
+        "hex": "#292621"
+      }
+    ],
+    "highlight": [
+      {
+        "name": "limestone_kiss",
+        "rgb": [
+          0.58,
+          0.56,
+          0.5
+        ],
+        "hex": "#948F80"
+      }
+    ],
+    "dirt": [
+      {
+        "name": "shared_dirt",
+        "rgb": [
+          0.16,
+          0.14,
+          0.11
+        ],
+        "hex": "#29241C"
+      }
+    ]
+  },
+  "preferred_categories": [
+    "stone_pavement",
+    "brick",
+    "wood_planks",
+    "metal_iron",
+    "fabric_cloth",
+    "leather"
+  ],
+  "roughness_bias": {
+    "stone": 0.05,
+    "wood": 0.0,
+    "metal": 0.05,
+    "water": 0.0
+  },
+  "ensemble": [
+    {
+      "material_id": "FABL_FORGE_stylized_medieval_cobblestone",
+      "path": "F:/SUBSTANCE_DESIGNER/SBS/FABL_FORGE/FABL_FORGE_stylized_medieval_cobblestone.sbs",
+      "category": "stone_pavement",
+      "roles": {
+        "primary": [
+          0.42,
+          0.4,
+          0.37
+        ],
+        "secondary": [
+          0.3,
+          0.34,
+          0.28
+        ],
+        "shadow": [
+          0.16,
+          0.15,
+          0.13
+        ],
+        "highlight": [
+          0.58,
+          0.56,
+          0.5
+        ]
+      },
+      "notes": "Hero ground \u2014 greystone courtyard"
+    },
+    {
+      "material_id": "FABL_FORGE_stylized_leather",
+      "path": "F:/SUBSTANCE_DESIGNER/SBS/FABL_FORGE/FABL_FORGE_stylized_leather.sbs",
+      "category": "leather",
+      "roles": {
+        "primary": [
+          0.32,
+          0.18,
+          0.12
+        ],
+        "secondary": [
+          0.28,
+          0.2,
+          0.14
+        ],
+        "shadow": [
+          0.14,
+          0.12,
+          0.1
+        ],
+        "highlight": [
+          0.52,
+          0.4,
+          0.28
+        ],
+        "dirt": [
+          0.16,
+          0.14,
+          0.11
+        ]
+      },
+      "notes": "CANONICAL leather base \u2014 pebbled hide, broad creases, courtyard gear. Matte used hide. Shares shared_dirt."
+    },
+    {
+      "material_id": "FABL_FORGE_stylized_warped_wood_floor",
+      "path": "F:/SUBSTANCE_DESIGNER/SBS/FABL_FORGE/FABL_FORGE_stylized_warped_wood_floor.sbs",
+      "category": "wood_planks",
+      "roles": {
+        "primary": [
+          0.35,
+          0.276,
+          0.208
+        ],
+        "secondary": [
+          0.28,
+          0.2,
+          0.14
+        ],
+        "shadow": [
+          0.16,
+          0.15,
+          0.13
+        ],
+        "highlight": [
+          0.52,
+          0.4,
+          0.28
+        ],
+        "dirt": [
+          0.16,
+          0.14,
+          0.11
+        ]
+      },
+      "notes": "Warped courtyard floorboards \u2014 sections lifting/cupping, gaps with shared_dirt, stretched grain. Bible timber grade desat for overcast."
+    }
+  ],
+  "camera_notes": "Environment tiling, mid-distance; joints must read.",
+  "do": [
+    "Desaturated greystone and timber",
+    "Moss only in joints / north faces",
+    "Shared dirt hue with other courtyard props"
+  ],
+  "dont": [
+    "Warm desert cobble",
+    "Lava emissive",
+    "Tropical water teal"
+  ],
+  "updated": "2026-07-31T14:23:01Z"
+}

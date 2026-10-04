@@ -102,7 +102,7 @@ _SYSTEM_PARAMS = frozenset({
 })
 
 # ── Known atomic node port registry ─────────────────────────────────────────
-# Source: Adobe SD docs + empirical testing. Prevents wrong-port crashes.
+# Source: SD docs + empirical testing. Prevents wrong-port crashes.
 ATOMIC_PORTS = {
     "sbs::compositing::blend": {
         "inputs":  ["source", "destination", "opacity"],
@@ -658,6 +658,7 @@ class CommandHandler:
             "list_recipes":           self.list_recipes,
             "get_recipe_info":        self.get_recipe_info,
             "apply_recipe":           self.apply_recipe,
+            "clone_stylized_reference": self.clone_stylized_reference,
             # ── Utilities ──
             "smart_connect":          self.smart_connect,
             "arrange_nodes":          self.arrange_nodes,
@@ -1340,18 +1341,89 @@ class CommandHandler:
         if position and len(position) >= 2:
             node.setPosition(float2(float(position[0]), float(position[1])))
         label_set = False
+        usage_set = False
+        ident_set = False
         try:
             node.setAnnotationPropertyValueFromId("label", SDValueString.sNew(label))
             label_set = True
         except Exception as e:
             _log("Warning: label set failed: {}".format(e))
+        # Identifier should match channel name so 3D view / exporters can find it.
+        try:
+            ident = str(usage).replace(" ", "").lower()
+            if ident == "basecolor":
+                ident = "basecolor"
+            elif ident == "ambientocclusion":
+                ident = "ambientocclusion"
+            node.setAnnotationPropertyValueFromId("identifier", SDValueString.sNew(ident))
+            ident_set = True
+        except Exception as e:
+            _log("Warning: identifier set failed: {}".format(e))
+        # Real PBR usage binding. SD 15 hangs on SDUsage.sNew — skip there.
+        # SD 16+ needs this or the 3D view stays default grey.
+        try:
+            usage_set = self._set_output_usage(node, usage)
+        except Exception as e:
+            _log("Warning: usage set failed: {}".format(e))
+            usage_set = False
         return {
             "node_id":    node.getIdentifier(),
             "definition": "sbs::compositing::output",
             "usage":      usage,
             "label":      label,
             "label_set":  label_set,
+            "ident_set":  ident_set,
+            "usage_set":  usage_set,
         }
+
+    def _set_output_usage(self, node, usage_name):
+        """Bind a PBR usage on an output node. Returns True on success.
+
+        SDUsage.sNew hangs forever on SD 15 — never call it there.
+        On SD 16+ it is required; labels alone do not drive the 3D view.
+        """
+        ver = ""
+        try:
+            ver = str(sd.getContext().getSDApplication().getVersion() or "")
+        except Exception:
+            pass
+        # SD version strings look like "16.0.4" / "15.0.x"
+        major = 0
+        try:
+            major = int(str(ver).split(".")[0])
+        except Exception:
+            major = 0
+        if major and major < 16:
+            _log("Skip SDUsage.sNew on SD {} (hang risk)".format(ver))
+            return False
+
+        # Lazy imports — keep module import safe if API surface differs
+        from sd.api.sdusage import SDUsage
+        from sd.api.sdvaluearray import SDValueArray
+        from sd.api.sdtypeusage import SDTypeUsage
+        from sd.api.sdproperty import SDPropertyCategory
+
+        name = str(usage_name or "baseColor")
+        # components/colorspace conventions matching Designer material outputs
+        if name in ("baseColor", "diffuse", "emissive", "specular"):
+            components, colorspace = "RGBA", "sRGB" if name == "baseColor" else "sRGB"
+            if name == "emissive":
+                colorspace = "sRGB"
+        elif name in ("normal", "worldSpaceNormal", "bentNormal"):
+            components, colorspace = "RGBA", "linear"
+        else:
+            # height / roughness / metallic / ambientOcclusion / opacity ...
+            components, colorspace = "RGBA", "linear"
+
+        usage_obj = SDUsage.sNew(name, components, colorspace)
+        arr_type = SDTypeUsage.sNew()
+        val_arr = SDValueArray.sNew(arr_type, 1)
+        val_arr.setItem(0, usage_obj)
+        prop = node.getPropertyFromId("usages", SDPropertyCategory.Annotation)
+        if prop is None:
+            return False
+        node.setPropertyValue(prop, val_arr)
+        return True
 
     def delete_node(self, node_id, graph_identifier=None):
         graph = self._resolve_graph(graph_identifier)
@@ -1851,12 +1923,13 @@ class CommandHandler:
         """
         Build a complete PBR material graph from a named recipe.
         overrides: dict of parameter overrides applied on top of recipe defaults.
+        Supports photoreal recipes AND stylized_* recipes (stylized grammar).
         """
-        from .recipes import RECIPE_REGISTRY
+        from .recipes import get_recipe, list_recipes
         recipe_name_key = recipe_name.lower().replace(" ", "_").replace("-", "_")
-        recipe = RECIPE_REGISTRY.get(recipe_name_key)
+        recipe = get_recipe(recipe_name_key)
         if not recipe:
-            available = sorted(RECIPE_REGISTRY.keys())
+            available = list_recipes()
             raise ValueError(
                 "Recipe '{}' not found. Available: {}".format(recipe_name, available))
 
@@ -1917,24 +1990,33 @@ class CommandHandler:
     # ═══════════════════════════════════════════════════════════════════════
 
     def list_recipes(self):
-        """List all available material recipes."""
+        """List all available material recipes (photoreal + stylized)."""
         try:
             from .recipes import RECIPE_REGISTRY, HEIGHTMAP_RECIPES
+            # unique by object id so stylized aliases don't spam the list
+            seen = set()
             recipes = []
-            for key, recipe in RECIPE_REGISTRY.items():
+            for key, recipe in sorted(RECIPE_REGISTRY.items()):
+                rid = id(recipe)
+                if rid in seen:
+                    continue
+                seen.add(rid)
                 recipes.append({
                     "key":         key,
                     "name":        recipe.get("name", key),
                     "category":    recipe.get("category", "unknown"),
+                    "style":       recipe.get("style", "photoreal"),
                     "description": recipe.get("description", ""),
                     "node_count":  len(recipe.get("nodes", [])),
                     "outputs":     recipe.get("outputs", []),
                 })
             heightmaps = sorted(HEIGHTMAP_RECIPES.keys())
+            stylized_n = sum(1 for r in recipes if r.get("style") == "stylized")
             return {
                 "material_recipes": recipes,
                 "heightmap_styles": heightmaps,
                 "total_recipes": len(recipes),
+                "stylized_recipes": stylized_n,
                 "total_heightmap_styles": len(heightmaps),
             }
         except ImportError as e:
@@ -1943,28 +2025,169 @@ class CommandHandler:
     def get_recipe_info(self, recipe_name):
         """Get detailed info about a specific recipe."""
         try:
-            from .recipes import RECIPE_REGISTRY
+            from .recipes import get_recipe
             key = recipe_name.lower().replace(" ", "_").replace("-", "_")
-            recipe = RECIPE_REGISTRY.get(key)
+            recipe = get_recipe(key)
             if not recipe:
                 return {"error": "Recipe '{}' not found.".format(recipe_name)}
             return {
                 "key":          key,
                 "name":         recipe.get("name", key),
                 "category":     recipe.get("category", "unknown"),
+                "style":        recipe.get("style", "photoreal"),
                 "description":  recipe.get("description", ""),
                 "outputs":      recipe.get("outputs", []),
                 "node_count":   len(recipe.get("nodes", [])),
                 "nodes_preview": [
                     {
                         "alias": s.get("id_alias", "?"),
-                        "type":  s.get("definition_id", s.get("library_keyword", "?")),
+                        "type":  s.get("definition_id",
+                                       s.get("resource_url",
+                                             s.get("library_keyword", "?"))),
                     }
-                    for s in recipe.get("nodes", [])[:20]
+                    for s in recipe.get("nodes", [])[:30]
                 ],
             }
         except ImportError as e:
             return {"error": "Recipes module not loaded: {}".format(e)}
+
+    def clone_stylized_reference(self, material_id, dest_path=None,
+                                  open_in_editor=True):
+        """
+        Level C: clone a mined reference stylized .sbs into a working package.
+
+        Loads the reference from STYLIZED_EXTRACTED (via knowledge catalog),
+        saves a copy to dest_path (default: alongside reference as
+        {id}_clone.sbs), reloads the copy, opens main graph.
+
+        Returns paths + graph identifiers. Edit the clone freely — original
+        library pack stays untouched.
+        """
+        import json as _json
+
+        mid = (material_id or "").strip().lower()
+        if not mid:
+            raise ValueError("material_id required")
+
+        # Resolve catalog — plugin lives in sduserplugins; KB is in PROJECTS
+        kb_candidates = [
+            os.path.normpath(os.path.join(
+                os.path.dirname(os.path.abspath(__file__)),
+                "..", "..", "..", "..", "..", "..",
+                "F:", "AI", "PROJECTS", "substance-designer-mcp",
+                "knowledge", "stylized", "catalog.json")),
+            r"F:\AI\PROJECTS\substance-designer-mcp\knowledge\stylized\catalog.json",
+        ]
+        # also try relative to common install layouts
+        here = os.path.dirname(os.path.abspath(__file__))
+        kb_candidates.append(os.path.normpath(os.path.join(
+            here, "..", "..", "..", "knowledge", "stylized", "catalog.json")))
+
+        cat = None
+        cat_path = None
+        for cpath in kb_candidates:
+            if os.path.isfile(cpath):
+                cat_path = cpath
+                with open(cpath, "r", encoding="utf-8") as f:
+                    cat = _json.load(f)
+                break
+        if not cat:
+            raise RuntimeError(
+                "stylized catalog.json not found. Run mine_stylized_kb.py. "
+                "Looked in: {}".format(kb_candidates[:3]))
+
+        match = None
+        for item in cat.get("index") or []:
+            if item.get("id", "").lower() == mid:
+                match = item
+                break
+        if not match:
+            fuzzy = [i for i in (cat.get("index") or [])
+                     if mid in i.get("id", "").lower()]
+            if len(fuzzy) == 1:
+                match = fuzzy[0]
+            else:
+                raise ValueError(
+                    "material_id '{}' not found. matches={}".format(
+                        material_id, [i.get("id") for i in fuzzy[:15]]))
+
+        src = match.get("sbs_path") or ""
+        if not src or not os.path.isfile(src):
+            raise RuntimeError("sbs missing on disk: {}".format(src))
+
+        if not dest_path:
+            base, ext = os.path.splitext(src)
+            # put clone next to source but outside nested folder if possible
+            dest_dir = os.path.dirname(os.path.dirname(src))
+            if not os.path.isdir(dest_dir):
+                dest_dir = os.path.dirname(src)
+            dest_path = os.path.join(
+                dest_dir, "{}_clone{}".format(match.get("id", "material"), ext or ".sbs"))
+        dest_path = os.path.abspath(dest_path)
+        dest_dir = os.path.dirname(dest_path)
+        if not os.path.isdir(dest_dir):
+            os.makedirs(dest_dir, exist_ok=True)
+
+        pkg_mgr = self._pkg_mgr()
+
+        # Load source (or reuse if already open)
+        src_pkg = pkg_mgr.getUserPackageFromFilePath(src)
+        if src_pkg is None:
+            src_pkg = pkg_mgr.loadUserPackage(src, True, True)
+        if src_pkg is None:
+            raise RuntimeError("Failed to load reference package: {}".format(src))
+
+        # Copy to dest
+        try:
+            pkg_mgr.saveCopyOfPackageAs(src_pkg, dest_path)
+        except Exception as e:
+            raise RuntimeError(
+                "saveCopyOfPackageAs failed ({}): {}".format(dest_path, e))
+
+        # Load the clone as the working package
+        clone_pkg = pkg_mgr.getUserPackageFromFilePath(dest_path)
+        if clone_pkg is None:
+            clone_pkg = pkg_mgr.loadUserPackage(dest_path, True, True)
+        if clone_pkg is None:
+            raise RuntimeError("Clone saved but failed to reload: {}".format(dest_path))
+
+        graphs = []
+        main_graph = None
+        try:
+            for r in list(clone_pkg.getChildrenResources(True)):
+                try:
+                    if "SDSBSCompGraph" not in r.getClassName():
+                        continue
+                    gid = r.getIdentifier()
+                    graphs.append(gid)
+                    if main_graph is None:
+                        main_graph = r
+                    # prefer graph whose id matches material id
+                    if gid and match.get("id", "") in gid.lower():
+                        main_graph = r
+                except Exception:
+                    pass
+        except Exception as e:
+            _log("clone graph enum: {}".format(e))
+
+        if open_in_editor and main_graph is not None:
+            try:
+                self._ui_mgr().openResourceInEditor(main_graph)
+            except Exception as e:
+                _log("open clone graph: {}".format(e))
+
+        return {
+            "material_id": match.get("id"),
+            "title": match.get("title"),
+            "category": match.get("category"),
+            "source_sbs": src,
+            "clone_sbs": dest_path,
+            "preview_path": match.get("preview_path"),
+            "graphs": graphs,
+            "main_graph": graphs[0] if graphs else None,
+            "catalog": cat_path,
+            "note": "Edit the clone freely. Original library SBS is untouched.",
+        }
 
     def apply_recipe(self, recipe_name, graph_identifier=None, position_offset=None,
                      overrides=None):
@@ -1973,12 +2196,12 @@ class CommandHandler:
         Useful for combining multiple recipes or adding detail passes to existing work.
         """
         try:
-            from .recipes import RECIPE_REGISTRY
+            from .recipes import get_recipe
         except ImportError as e:
             raise RuntimeError("Recipes module not loaded: {}".format(e))
 
         key    = recipe_name.lower().replace(" ", "_").replace("-", "_")
-        recipe = RECIPE_REGISTRY.get(key)
+        recipe = get_recipe(key)
         if not recipe:
             raise ValueError("Recipe '{}' not found.".format(recipe_name))
 

@@ -1,0 +1,398 @@
+{
+  "id": "fabl_forge",
+  "title": "FABL Forge",
+  "version": 2,
+  "updated": "2026-07-27T00:31:57Z",
+  "description": "Stylized fantasy forge world \u2014 readable shapes, grounded medieval values, controlled magical accents.",
+  "art_pillars": [
+    "Shape-first stylized PBR (bible grammar), never photoreal noise soup",
+    "World materials stay desaturated; heat/magic accents are rare and intentional",
+    "Shared dirt/shadow language across stone, wood, and metal",
+    "Wet coastal and dry keep interiors are different scenes \u2014 do not mix grades blindly",
+    "Emissive only for lava, forge fire, enchanted props",
+    "Domain1: height-first, fewer-and-larger, controlled randomness, expose params",
+    "Domain2: shared visual DNA + hierarchy; validate ensemble under project lighting",
+    "Albedo may carry soft shape cues; roughness stays simple/graphic"
+  ],
+  "harmony_mode": "analogous",
+  "white_balance": "slightly_cool",
+  "shadow_temperature": "cool",
+  "key_light_temperature": "neutral_to_cool",
+  "saturation_budget": "low_medium",
+  "value_range": {
+    "min": 0.04,
+    "max": 0.92
+  },
+  "accent_surface_ratio_max": 0.12,
+  "emissive_policy": "restricted",
+  "allowed_categories": [
+    "stone_pavement",
+    "stone_rock",
+    "brick",
+    "terracotta",
+    "wood_planks",
+    "metal_iron",
+    "metal_gold",
+    "metal_copper",
+    "ground_soil",
+    "ground_grass",
+    "water",
+    "fabric_cloth",
+    "leather",
+    "corrupted"
+  ],
+  "master_palette": {
+    "primary": [
+      {
+        "name": "keep_stone",
+        "rgb": [
+          0.42,
+          0.4,
+          0.37
+        ],
+        "hex": "#6B665E"
+      },
+      {
+        "name": "aged_timber",
+        "rgb": [
+          0.35,
+          0.24,
+          0.14
+        ],
+        "hex": "#593D24"
+      },
+      {
+        "name": "deep_ocean",
+        "rgb": [
+          0.01,
+          0.12,
+          0.28
+        ],
+        "hex": "#031F47"
+      },
+      {
+        "name": "iron_body",
+        "rgb": [
+          0.28,
+          0.29,
+          0.31
+        ],
+        "hex": "#474A4F"
+      },
+      {
+        "name": "leather_body",
+        "rgb": [
+          0.32,
+          0.18,
+          0.12
+        ],
+        "hex": "#522E1F"
+      }
+    ],
+    "secondary": [
+      {
+        "name": "moss_patch",
+        "rgb": [
+          0.3,
+          0.34,
+          0.28
+        ],
+        "hex": "#4D5747"
+      },
+      {
+        "name": "dry_thatch",
+        "rgb": [
+          0.55,
+          0.45,
+          0.28
+        ],
+        "hex": "#8C7347"
+      },
+      {
+        "name": "copper_patina",
+        "rgb": [
+          0.25,
+          0.42,
+          0.36
+        ],
+        "hex": "#406B5C"
+      },
+      {
+        "name": "leather_undertone",
+        "rgb": [
+          0.28,
+          0.2,
+          0.14
+        ],
+        "hex": "#473324"
+      }
+    ],
+    "shadow": [
+      {
+        "name": "joint_dirt",
+        "rgb": [
+          0.14,
+          0.12,
+          0.1
+        ],
+        "hex": "#241F1A"
+      },
+      {
+        "name": "abyss",
+        "rgb": [
+          0.05,
+          0.06,
+          0.08
+        ],
+        "hex": "#0D0F14"
+      }
+    ],
+    "highlight": [
+      {
+        "name": "limestone_kiss",
+        "rgb": [
+          0.58,
+          0.56,
+          0.5
+        ],
+        "hex": "#948F80"
+      },
+      {
+        "name": "foam_crest",
+        "rgb": [
+          0.85,
+          0.92,
+          0.98
+        ],
+        "hex": "#D9EBFA"
+      },
+      {
+        "name": "metal_edge",
+        "rgb": [
+          0.72,
+          0.74,
+          0.76
+        ],
+        "hex": "#B8BDC2"
+      },
+      {
+        "name": "leather_worn_edge",
+        "rgb": [
+          0.52,
+          0.4,
+          0.28
+        ],
+        "hex": "#856647"
+      }
+    ],
+    "accent": [
+      {
+        "name": "forge_ember",
+        "rgb": [
+          1.0,
+          0.35,
+          0.05
+        ],
+        "hex": "#FF590D"
+      },
+      {
+        "name": "banner_crimson",
+        "rgb": [
+          0.55,
+          0.12,
+          0.12
+        ],
+        "hex": "#8C1F1F"
+      },
+      {
+        "name": "arcane_teal",
+        "rgb": [
+          0.15,
+          0.55,
+          0.55
+        ],
+        "hex": "#268C8C"
+      }
+    ],
+    "emissive": [
+      {
+        "name": "lava_core",
+        "rgb": [
+          1.0,
+          0.45,
+          0.02
+        ],
+        "hex": "#FF7305"
+      },
+      {
+        "name": "forge_glow",
+        "rgb": [
+          1.0,
+          0.28,
+          0.02
+        ],
+        "hex": "#FF4705"
+      }
+    ],
+    "dirt": [
+      {
+        "name": "shared_dirt",
+        "rgb": [
+          0.16,
+          0.14,
+          0.11
+        ],
+        "hex": "#29241C"
+      }
+    ],
+    "foam_or_edge": [
+      {
+        "name": "sea_foam",
+        "rgb": [
+          0.85,
+          0.92,
+          0.98
+        ],
+        "hex": "#D9EBFA"
+      }
+    ]
+  },
+  "hue_windows": {
+    "stone": {
+      "center": 0.08,
+      "width": 0.1,
+      "sat_max": 0.25
+    },
+    "wood": {
+      "center": 0.07,
+      "width": 0.08,
+      "sat_max": 0.45
+    },
+    "water": {
+      "center": 0.58,
+      "width": 0.1,
+      "sat_max": 0.7
+    },
+    "metal_cool": {
+      "center": 0.6,
+      "width": 0.12,
+      "sat_max": 0.15
+    },
+    "vegetation": {
+      "center": 0.28,
+      "width": 0.1,
+      "sat_max": 0.4
+    },
+    "heat_accent": {
+      "center": 0.05,
+      "width": 0.06,
+      "sat_max": 1.0
+    },
+    "magic_accent": {
+      "center": 0.5,
+      "width": 0.08,
+      "sat_max": 0.7
+    },
+    "leather": {
+      "center": 0.055,
+      "width": 0.09,
+      "sat_max": 0.65
+    }
+  },
+  "roughness_guidance": {
+    "stone_dry": [
+      0.75,
+      0.92
+    ],
+    "stone_wet": [
+      0.45,
+      0.65
+    ],
+    "wood_raw": [
+      0.65,
+      0.85
+    ],
+    "metal_iron": [
+      0.45,
+      0.75
+    ],
+    "metal_gold": [
+      0.25,
+      0.45
+    ],
+    "water_body": [
+      0.02,
+      0.12
+    ],
+    "lava_molten": [
+      0.15,
+      0.35
+    ],
+    "lava_crust": [
+      0.65,
+      0.85
+    ],
+    "leather": [
+      0.55,
+      0.8
+    ]
+  },
+  "do": [
+    "Reuse shared_dirt / joint_dirt across set dressing",
+    "Prefer cool greystone over warm desert tan for keep exteriors",
+    "Keep foam and emissive as accents, not base layers",
+    "Validate every new mat against active scene ensemble",
+    "Author height grayscale read before polishing normals",
+    "Expose color/wear/density/roughness for scene variants",
+    "Test new mats beside ensemble under target light/camera",
+    "Leather: share dirt with courtyard gear; matte used hide default"
+  ],
+  "dont": [
+    "Tropical teal water in keep interiors",
+    "High-sat grass against desat medieval stone without story reason",
+    "Random emissive sparkles on mundane props",
+    "Photoreal pore noise on stylized hero tiles",
+    "Uncontrolled high-frequency noise for realism",
+    "Inconsistent detail density next to quieter neighbors",
+    "Scale mismatches (giant grain beside fine cobble)",
+    "Shiny plastic PBR leather; high-sat orange new-belt next to desat stone"
+  ],
+  "default_scene": "keep_courtyard_overcast",
+  "references": [
+    "donor stylized_cobblestone_pavement (structure)",
+    "donor stylized_lava_cracked (heat language)",
+    "donor stylized_ocean_water (wave language)"
+  ],
+  "notes": "Production art bible. Donors optional for topology only; look from this bible.",
+  "style_dna": {
+    "shape_language": "readable_chunky_fantasy - clear silhouettes, soft bevels, no photo breakup",
+    "detail_density": "fewer_and_larger",
+    "wear_philosophy": "contact_logical - dirt in joints, edge wear on tops, shared dirt hue",
+    "albedo_lighting_policy": "soft_baked_cues_ok - gentle AO/edge in albedo allowed; no harsh fake sun streaks",
+    "frequency_policy": {
+      "low": "required_macro_structure",
+      "mid": "sculpt_wear_color_zones",
+      "high": "restrained_or_none"
+    },
+    "scale_notes": "cobble ~ hand-sized; plank width stable across set; wave length broad ocean not puddle ripples",
+    "hierarchy_default": "world_quiet_hero_loud"
+  },
+  "core_hue_count_target": 4,
+  "test_together_required": true,
+  "material_families": {
+    "leather": {
+      "role_in_world": "hero gear / straps / books / satchels (not world fill)",
+      "shape_language": "soft pebbled grain, broad creases (fewer and larger)",
+      "detail_density": "mid grain OK, no pore soup",
+      "wear": "edge scuffs, fold darkening, contact dirt in seams",
+      "scale": "pebble ~2-5mm at hero cam; crease wavelength much larger",
+      "roughness": [
+        0.55,
+        0.8
+      ],
+      "metallic": 0,
+      "emissive": "never",
+      "hierarchy_default": "hero or secondary"
+    }
+  }
+}

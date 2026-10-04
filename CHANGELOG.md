@@ -4,6 +4,28 @@ All notable changes to the Substance Designer MCP Plugin are documented here.
 
 ---
 
+## [Unreleased] — Domains + art-bible look lock
+
+### Production domains (`domains/`)
+- New folder of production-scope context docs (above Designer craft, below art bible)
+- Shipped: `domains/stylized_materials.md` — Stylized Materials for Video Game Development (3D Model Application)
+- Live filesystem discovery (`_scan_domains`) — **no static domain registry**
+- Optional Meta routing: `Id`, `Default`, `Aliases`, `Categories`, `Category prefixes`
+- MCP: `domain_list`, `domain_get`, `domain_get_section`
+
+### Art bible LOOK lock (critical)
+- **Bugfix:** scene `local_palette` wiped entire master role lists → leather could become courtyard greystone
+- **Fix:** `_merge_palette_role` keeps master swatches; scene entries win on same name only
+- `stylized_design_brief` now leads with `art_bible_lock.color_card` + `scene_grade` (mandatory grade)
+- `look_authority=art_bible_and_scene`, `donor_policy=topology_only`, `forbid_domain_as_palette`
+- Palette prefer same-category ensemble colors, then bible swatches (category-scored)
+- Validation ship gate: dirt-language drift fail, category allow-list, ensemble primary drift, `ship_gate.may_register`
+- Skill v3.2: domain = pipeline only; bible/scene = color/feel
+
+Authority stack: **Art bible (look) > Domain context (production) > design_concepts (D1/D2 craft) > general realtime**
+
+---
+
 ## [1.0.0] — 2026-02-19 — First Public Release
 
 ### Plugin (v3.1.0)

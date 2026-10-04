@@ -1,4 +1,4 @@
-﻿"""
+"""
 SD MCP Recipe System v5.0 — Professional Grade (pro Architecture)
 Based on deep analysis of SubstanceGraph1 (512 nodes, pro / MeshModeler).
 
@@ -2099,7 +2099,18 @@ HEIGHTMAP_RECIPES = {
 
 
 def get_recipe(name):
-    return RECIPE_REGISTRY.get(name)
+    if not name:
+        return None
+    key = name.lower().replace(" ", "_").replace("-", "_")
+    r = RECIPE_REGISTRY.get(key)
+    if r is not None:
+        return r
+    # stylized recipes live in sibling module (Level B)
+    try:
+        from .stylized_recipes import get_stylized_recipe
+        return get_stylized_recipe(key)
+    except Exception:
+        return None
 
 
 def get_heightmap_recipe(style, detail_level=3, scale=5.0, disorder=0.5):
@@ -2110,8 +2121,23 @@ def get_heightmap_recipe(style, detail_level=3, scale=5.0, disorder=0.5):
 
 
 def list_recipes():
-    return sorted(RECIPE_REGISTRY.keys())
+    keys = set(RECIPE_REGISTRY.keys())
+    try:
+        from .stylized_recipes import STYLIZED_RECIPE_REGISTRY
+        keys.update(STYLIZED_RECIPE_REGISTRY.keys())
+    except Exception:
+        pass
+    return sorted(keys)
 
 
 def list_heightmap_styles():
     return sorted(HEIGHTMAP_RECIPES.keys())
+
+
+# Merge stylized recipes into registry at import (aliases share objects)
+try:
+    from .stylized_recipes import STYLIZED_RECIPE_REGISTRY
+    for _k, _v in STYLIZED_RECIPE_REGISTRY.items():
+        RECIPE_REGISTRY[_k] = _v
+except Exception as _e:
+    pass  # stylized_recipes.py optional until deployed

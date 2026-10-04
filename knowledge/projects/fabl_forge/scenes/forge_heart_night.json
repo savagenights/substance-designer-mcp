@@ -1,0 +1,70 @@
+{
+  "id": "forge_heart_night",
+  "project_id": "fabl_forge",
+  "title": "Forge Heart — Night Interior",
+  "mood_tags": ["night", "interior", "heat", "embers", "dramatic", "restricted_emissive"],
+  "time_of_day": "night",
+  "weather": "interior",
+  "biome": "forge",
+  "harmony_mode_override": "complementary",
+  "white_balance_bias": "warm_key_cool_fill",
+  "saturation_scale": 1.05,
+  "value_lift": -0.08,
+  "wetness": 0.0,
+  "dust": 0.25,
+  "emissive_allowed": true,
+  "hero_accent_allowed": ["lava_core", "forge_ember", "forge_glow"],
+  "local_palette": {
+    "primary": [
+      {"name": "soot_stone", "rgb": [0.14, 0.13, 0.12], "hex": "#242120"},
+      {"name": "iron_body", "rgb": [0.28, 0.29, 0.31], "hex": "#474A4F"}
+    ],
+    "secondary": [
+      {"name": "ash_brown", "rgb": [0.22, 0.16, 0.12], "hex": "#38291F"}
+    ],
+    "shadow": [
+      {"name": "soot_black", "rgb": [0.05, 0.045, 0.04], "hex": "#0D0B0A"}
+    ],
+    "highlight": [
+      {"name": "heat_rim", "rgb": [0.55, 0.28, 0.12], "hex": "#8C471F"}
+    ],
+    "accent": [
+      {"name": "forge_ember", "rgb": [1.0, 0.35, 0.05], "hex": "#FF590D"}
+    ],
+    "emissive": [
+      {"name": "lava_core", "rgb": [1.0, 0.45, 0.02], "hex": "#FF7305"},
+      {"name": "forge_glow", "rgb": [1.0, 0.28, 0.02], "hex": "#FF4705"}
+    ]
+  },
+  "preferred_categories": ["stone_rock", "metal_iron", "metal_copper", "corrupted", "brick"],
+  "roughness_bias": {
+    "stone": 0.0,
+    "wood": 0.05,
+    "metal": -0.05,
+    "water": 0.0
+  },
+  "ensemble": [
+    {
+      "material_id": "FABL_FORGE_stylized_lava",
+      "path": "F:/SUBSTANCE_DESIGNER/SBS/FABL_FORGE/FABL_FORGE_stylized_lava.sbs",
+      "category": "stone_rock",
+      "roles": {
+        "primary": [0.06, 0.045, 0.04],
+        "emissive": [1.0, 0.45, 0.02],
+        "secondary": [0.22, 0.12, 0.08]
+      },
+      "notes": "Cracked lava — crust + molten channels, emissive on"
+    }
+  ],
+  "camera_notes": "Hero heat props; emissive must dominate accents; world stone stays near-black.",
+  "do": [
+    "Near-black crust / soot stone",
+    "Hot orange emissive only in molten/fire roles",
+    "Complementary cool iron vs warm heat"
+  ],
+  "dont": [
+    "Bright daylight greystone",
+    "Ocean foam language",
+    "Non-story rainbow emissive"
+  ]
+}
